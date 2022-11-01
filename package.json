@@ -1,0 +1,24 @@
+{
+	"name": "todo",
+	"version": "1.0.0",
+	"description": "An app where you get a personal todo list you can share with your friends.",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"test": "nodemon index.js"
+	},
+	"keywords": [],
+	"author": "sanko",
+	"license": "ISC",
+	"devDependencies": {
+		"nodemon": "^2.0.19"
+	},
+	"dependencies": {
+		"connect-pg-simple": "^7.0.0",
+		"dotenv": "^16.0.1",
+		"express": "^4.18.1",
+		"express-session": "^1.17.3",
+		"morgan": "^1.10.0",
+		"pg": "^8.7.3"
+	}
+}

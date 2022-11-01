@@ -1,0 +1,664 @@
+@mixin glass {
+	color: white;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+@mixin trim {
+	> :first-child {
+		margin-top: 0;
+	}
+	> :last-child {
+		margin-bottom: 0;
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+html {
+	font-family: sans-serif;
+}
+body {
+	margin: 0;
+	background-color: black;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-image: url("../jpg/image.jpg");
+		background-size: cover;
+		background-position: center center;
+		opacity: 0.75;
+		filter: blur(1rem);
+	}
+}
+
+input[type="text"],
+input[type="date"],
+input[type="password"] {
+	@include glass;
+	backdrop-filter: none;
+
+	display: block;
+	width: 100%;
+	padding: 0.5rem 1rem;
+	font-family: inherit;
+	font-size: inherit;
+	color: black;
+	transition: background 0.25s;
+	
+	&:focus {
+		outline: none;
+		background-color: rgba(255, 255, 255, 0.75);
+	}
+}
+button,
+input[type="submit"] {
+	display: inline-block;
+	padding: 0.5rem 1rem;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	background: cornflowerblue;
+	color: white;
+	border-radius: 1rem;
+	transition: filter 0.25s;
+	cursor: pointer;
+	
+	&:hover, &:focus {
+		outline: none;
+		filter: brightness(1.2);
+	}
+}
+.checkbox {
+	background: rgba(255, 255, 255, 0.5);
+	transition: background 0.25s, filter 0.25s;
+	
+	&--checked {
+		background: cornflowerblue;
+	}
+}
+
+#todo {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 100%;
+	max-width: 60rem;
+	height: 100%;
+	overflow: hidden;
+	background-image: url("../jpg/image.jpg");
+	background-size: cover;
+	background-position: center top;
+	transform: translateX(-50%);
+}
+.message {
+	position: absolute;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.25);
+	
+	&__inner {
+		@include glass;
+		@include trim;
+		
+		width: 100%;
+		max-width: 20rem;
+		padding: 1.5rem;
+		margin: 1rem;
+		text-align: center;
+	}
+}
+.message-enter-active {transition: all 0.25s;}
+.message-leave-active {transition: all 0.25s;}
+.message-enter-from {opacity: 0;}
+.message-leave-to {opacity: 0;}
+
+.view {
+	position: absolute;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0.02px 0.5rem;
+	overflow: hidden auto;
+	
+	&__inner > * {
+		@include glass;
+		@include trim;
+		
+		position: relative;
+		width: 100%;
+		max-width: 40rem;
+		padding: 1.5rem 1rem;
+		margin: 1rem auto;
+	}
+}
+.view-enter-active {transition: all 0.5s;}
+.view-leave-active {transition: all 0.5s;}
+.view-enter-from {transform: translateX(100%);}
+.view-leave-to {transform: translateX(-100%);}
+
+.login, .create, .setting {
+	form {
+		@include trim;
+	}
+	label {
+		display: block;
+		margin: 0.5rem;
+	}
+	&__submit {
+		display: flex;
+		justify-content: flex-end;
+	}
+}
+
+.nav {
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		padding: 0;
+		margin: 1rem 0;
+		list-style: none;
+	}
+	&__current {
+		filter: brightness(1.35);
+		cursor: auto;
+				
+		&:hover, &:focus {
+			filter: brightness(1.35);
+		}
+	}
+	&__logout {
+		position: absolute;
+		top: 1.5rem;
+		right: 1rem;
+		margin-left: auto;
+	}
+}
+
+.todo {
+	&__list {
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		margin: 1rem 0 -1rem !important;
+		list-style: none;
+		/* clip-path: inset(-5rem -1.5rem); */
+	}
+	&__todo {
+		position: relative;
+		margin-bottom: 1rem;
+	}
+	&__inner {
+		@include glass;
+		backdrop-filter: none;
+		
+		width: 100%;
+		position: relative;
+		padding: 1.75rem 2.5rem 0.5rem;
+		color: black;
+		line-height: 1.5;
+		
+		&::before {
+			content: "v";
+			position: absolute;
+			left: 1rem;
+			top: 50%;
+			color: transparent;
+			transform: translateY(-50%);
+		}
+	}
+	&__todo--friend & {
+		&__inner {
+			background: rgba(240, 240, 255, 0.5);
+		}
+	}
+	&__info {
+		position: absolute;
+		top: 0.5rem;
+		left: 2.5rem;
+		font-size: 0.75rem;
+		color: #888;
+	}
+	&__todo--done & {
+		&__inner {
+			color: #aaa;
+			text-decoration: line-through;
+			transition: all 0.25s;
+		}
+		&__inner::before {
+			color: green;
+			transition: color 0.25s;
+		}
+	}
+	&__delete {
+		position: absolute;
+		right: 0.5rem;
+		top: 50%;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		line-height: 1.5rem;
+		background: orangered;
+		transform: translateY(-50%);
+	}
+	&__done {
+		position: absolute;
+		left: 0.5rem;
+		top: 50%;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		line-height: 1.5rem;
+		background: seagreen;
+		transform: translateY(-50%);
+	}
+	&__add-form {
+		position: relative;
+	}
+	&__add-p {
+		position: relative;
+	}
+	&__add-content[type="text"] {
+		padding-right: 2.5rem;
+	}
+	&__add-button[type="submit"] {
+		position: absolute;
+		right: 0.5rem;
+		top: 50%;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		line-height: 1.5rem;
+		transform: translateY(-50%);
+	}
+	&__more {
+		display: flex;
+		justify-content: flex-end;
+	}
+}
+.list-move, .list-enter-active, .list-leave-active {transition: all 0.25s;}
+.list-move > *, .list-enter-active > *, .list-leave-active > * {transition: all 0.25s;}
+.list-leave-active {margin-bottom: 0 !important;}
+.list-leave-active > * {position: absolute !important;}
+.list-enter-from > *, .list-leave-to > * {opacity: 0;}
+/* .list-enter-from > * {transform: translateX(100%);} */
+/* .list-leave-to > * {transform: translateX(-100%);} */
+
+.friend {
+	&__list {
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		margin: 1rem 0 -1rem !important;
+		list-style: none;
+		/* clip-path: inset(-5rem -1.5rem); */
+	}
+	&__friend, &__request, &__requesting {
+		position: relative;
+		margin-bottom: 1rem;
+	}
+	&__inner {
+		@include glass;
+		backdrop-filter: none;
+		
+		width: 100%;
+		position: relative;
+		padding: 0.5rem 2.5rem 0.5rem 1rem;
+		color: black;
+	}
+	&__accept {
+		position: absolute;
+		right: 2.5rem;
+		top: 50%;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		line-height: 1.5rem;
+		background: seagreen;
+		transform: translateY(-50%);
+	}
+	&__cancel, &__decline, &__remove {
+		position: absolute;
+		right: 0.5rem;
+		top: 50%;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		line-height: 1.5rem;
+		background: orangered;
+		transform: translateY(-50%);
+	}
+	&__add-form {
+		position: relative;
+		
+		p {margin: 0;}
+	}
+	&__add-friend[type="text"] {
+		padding-right: 2.5rem;
+	}
+	&__add-button[type="submit"] {
+		position: absolute;
+		right: 0.5rem;
+		top: 50%;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		line-height: 1.5rem;
+		transform: translateY(-50%);
+	}
+}
+
+
+/*
+* {
+	box-sizing: border-box;
+}
+html {
+	font-family: sans-serif;
+}
+body {
+	margin: 0;
+}
+input[type="text"],
+input[type="password"] {
+	flex: 1 1 auto;
+	display: block;
+	width: 100%;
+	padding: 1rem 5.5rem 1rem 1rem;
+	color: black;
+	border-radius: 1rem;
+	font-family: inherit;
+	font-size: inherit;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	transition: background 0.25s;
+}
+button,
+input[type="submit"] {
+	height: 2rem;
+	padding: 0 1rem;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	border-radius: 0.5rem;
+	background: cornflowerblue;
+	color: white;
+	transition: opacity 0.25s;
+	cursor: pointer;
+}
+button:hover,
+input[type="submit"]:hover {
+	opacity: 0.5;
+}
+button:focus,
+input[type="submit"]:focus {
+	opacity: 0.5;
+	outline: none;
+}
+input[type="text"]:focus,
+input[type="password"]:focus {
+	background: white;
+	outline: none;
+}
+
+#todo {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-image: url("image.jpg");
+	background-size: cover;
+}
+.message {
+	position: absolute;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.25);
+}
+.message .message__inner {
+	width: 100%;
+	max-width: 20rem;
+	padding: 1rem 1rem;
+	margin: 1rem;
+	text-align: center;
+	
+	color: white;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.message-enter-active {transition: all 0.25s;}
+.message-leave-active {transition: all 0.25s;}
+.message-enter-from {opacity: 0;}
+.message-leave-to {opacity: 0;}
+
+.view {
+	position: absolute;
+	left: 0;
+	right: 0;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	padding: 0.02px 1rem;
+	overflow: auto;
+}
+.view h2 {
+	margin: 0 0 2rem;
+}
+.login, .create {
+	width: 100%;
+	max-width: 40rem;
+	min-height: 20rem;
+	padding: 1.5rem 1rem;
+	margin: 1rem auto;
+	
+	color: white;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.login > :first-child, .create > :first-child {
+	margin-top: 0;
+}
+.login > :last-child, .create > :last-child {
+	margin-bottom: 0;
+}
+.login label,
+.create label {
+	display: block;
+	margin-bottom: 0.5rem;
+}
+.view--list .view__inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 1rem;
+	width: 100%;
+	max-width: 60rem;
+	margin: 0 auto;
+}
+.view--list .view__inner > * > :first-child {
+	margin-top: 0;
+}
+.view--list .view__inner > * > :last-child {
+	margin-bottom: 0;
+}
+.list {
+	flex: 1 1 auto;
+	position: relative;
+	min-height: 20rem;
+	padding: 1.5rem 1rem;
+	margin: 1rem 0;
+	
+	color: white;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.friends {
+	flex: 0 0 15rem;
+	padding: 1.5rem 1rem;
+	margin: 1rem 0;
+	min-height: 20rem;
+	
+	color: white;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.add-todo {
+	padding: 0;
+	margin: 0 0 2rem;
+}
+.add-todo p {
+	position: relative;
+	margin: 0;
+}
+.add-todo input[type="submit"] {
+	position: absolute;
+	top: 50%;
+	right: 1rem;
+	transform: translateY(-50%);
+	display: block;
+}
+.logout {
+	position: absolute;
+	top: 2rem;
+	right: 1rem;
+	display: block;
+}
+.todos {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 0;
+	list-style: none;
+	overflow-x: hidden;
+}
+.todos .todo {
+	width: 100%;
+}
+.todos .todo-content {
+	position: relative;
+	padding: 1rem 7.5rem 1rem 1rem;
+	color: black;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.todos .friend-todo .todo-content {
+	background: rgba(240, 240, 255, 0.5);
+	border: 1px solid rgba(240, 240, 255, 0.3);
+}
+.todos .done .todo-content {
+	position: relative;
+	color: #888;
+}
+.todos .done .todo-content::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 1rem;
+	display: block;
+	width: calc(100% - 2rem);
+	height: 1px;
+	background: #888;
+}
+.todos .todo .done-button {
+	position: absolute;
+	top: 50%;
+	right: 1rem;
+	transform: translateY(-50%);
+	display: block;
+}
+.friend-list {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 0;
+	margin-bottom: 2rem;
+	list-style: none;
+	overflow-x: hidden;
+}
+.friend-list .friend {
+	position: relative;
+	padding: 1rem 7.5rem 1rem 1rem;
+	color: black;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.add-friend {
+	position: relative;
+	margin-bottom: 2rem;
+}
+.add-friend input[type="submit"] {
+	position: absolute;
+	top: 50%;
+	right: 1rem;
+	transform: translateY(-50%);
+	display: block;
+}
+.friend-requests {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 0;
+	margin-bottom: 2rem;
+	list-style: none;
+	overflow-x: hidden;
+}
+.friend-requests .request {
+	position: relative;
+	padding: 1rem 7.5rem 1rem 1rem;
+	color: black;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(1rem);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.request .accept-button {
+	position: absolute;
+	top: 50%;
+	right: 1rem;
+	transform: translateY(-50%);
+	display: block;
+}
+.list-move, .list-enter-active, .list-leave-active {transition: all 0.25s;}
+.list-leave-active {position: absolute !important;}
+.list-enter-from {transform: translateX(100%); opacity: 0;}
+.list-leave-to {transform: translateX(-100%); opacity: 0;}*/
